@@ -6,6 +6,7 @@ from aiohttp import (
 from aiohttp_socks import ProxyConnector
 from eth_account.messages import encode_defunct
 from eth_utils import to_hex
+from eth_account import Account # <--- THIS LINE WAS MISSING AND HAS BEEN ADDED BACK
 from datetime import datetime, timezone
 from colorama import *
 import asyncio, uuid, json, os, pytz
