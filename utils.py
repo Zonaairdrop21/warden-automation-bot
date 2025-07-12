@@ -6,7 +6,7 @@ from eth_account import Account
 from colorama import Fore, Style
 import pytz
 
-wib = pytz.timezone('Asia/Jakarta')
+display_timezone = pytz.utc
 
 USER_AGENT = [
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -27,25 +27,20 @@ USER_AGENT = [
 ]
 
 def clear_console():
-    """Clears the terminal screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def log_message(message):
-    """Prints a log message with a timestamp."""
     print(
-        f"{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%H:%M:%S')}] {Style.RESET_ALL}"
         f"{Fore.CYAN}>> {Style.RESET_ALL}{message}",
         flush=True
     )
 
 def format_time_duration(seconds):
-    """Formats seconds into HH:MM:SS string."""
     hours, remainder = divmod(seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
 
 def load_json_data(filename):
-    """Loads JSON data from a file."""
     try:
         if not os.path.exists(filename):
             log_message(f"{Fore.RED}File {filename} Not Found.{Style.RESET_ALL}")
@@ -63,7 +58,6 @@ def load_json_data(filename):
         return []
 
 def get_masked_address(account_key):
-    """Generates an Ethereum address from a private key and masks it."""
     try:
         eth_account = Account.from_key(account_key)
         address = eth_account.address
@@ -73,12 +67,10 @@ def get_masked_address(account_key):
         return None, None
 
 def check_proxy_format(proxy_url):
-    """Ensures proxy URL has a scheme (http://, https://, socks4://, socks5://)."""
     schemes = ["http://", "https://", "socks4://", "socks5://"]
     if any(proxy_url.startswith(scheme) for scheme in schemes):
         return proxy_url
-    return f"http://{proxy_url}" # Default to http if no scheme specified
+    return f"http://{proxy_url}"
 
 def get_random_user_agent():
-    """Returns a random user agent string."""
     return random.choice(USER_AGENT)

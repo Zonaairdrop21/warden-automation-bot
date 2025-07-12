@@ -6,13 +6,13 @@ from aiohttp import (
 from aiohttp_socks import ProxyConnector
 from eth_account.messages import encode_defunct
 from eth_utils import to_hex
-from eth_account import Account # <--- THIS LINE WAS MISSING AND HAS BEEN ADDED BACK
+from eth_account import Account
 from datetime import datetime, timezone
 from colorama import *
-import asyncio, uuid, json, os, pytz
+import asyncio, uuid, json, os
 import time
+import random
 
-# Import helper functions and constants from utils.py
 from utils import (
     clear_console,
     log_message,
@@ -21,7 +21,7 @@ from utils import (
     get_masked_address,
     check_proxy_format,
     get_random_user_agent,
-    wib # Import wib timezone
+    display_timezone
 )
 
 class WardenAutomation:
@@ -36,25 +36,25 @@ class WardenAutomation:
         
         self.proxy_list = []
         self.current_proxy_index = 0
-        self.account_proxy_assignments = {} # Maps account address to its assigned proxy
-        self.auth_tokens = {} # Stores access tokens for authenticated addresses
+        self.account_proxy_assignments = {}
+        self.auth_tokens = {}
 
     def display_welcome_screen(self):
-        clear_console() # Clear before displaying welcome
-        current_time_wib = datetime.now().astimezone(wib)
-        date_str = current_time_wib.strftime('%d.%m.%y')
-        time_str = current_time_wib.strftime('%H:%M:%S')
+        clear_console()
+        current_time_display = datetime.now().astimezone(display_timezone)
+        date_str = current_time_display.strftime('%d.%m.%y')
+        time_str = current_time_display.strftime('%H:%M:%S')
         
         print(f"{Fore.GREEN + Style.BRIGHT}")
         print("  ┌─────────────────────────────────┐")
         print("  │     [ W A R D E N  B O T ]      │")
         print(f"  │                                 │")
-        print(f"  │     {Fore.YELLOW}{time_str} {date_str}{Fore.GREEN}      │") # Digital clock display
+        print(f"  │     {Fore.YELLOW}{time_str} {date_str}{Fore.GREEN}      │")
         print("  │                                 │")
         print("  │   Automated Protocol Utility    │")
         print(f"  │ {Fore.WHITE}   by ZonaAirdrop {Fore.GREEN}(t.me/ZonaAirdr0p){Style.RESET_ALL} │")
         print("  └─────────────────────────────────┘\n")
-        time.sleep(1) # Small delay for better aesthetic
+        time.sleep(1)
 
 
     async def load_proxies_from_file(self, use_proxy_mode: bool):
@@ -166,7 +166,7 @@ class WardenAutomation:
                 log_message(f"{Fore.RED + Style.BRIGHT}Invalid input. Please enter a number (1 or 2).{Style.RESET_ALL}")
 
         should_rotate = False
-        if choice_input == 1: # Only ask for rotation if private proxy is selected
+        if choice_input == 1:
             while True:
                 rotate_input_str = input(f"{Fore.GREEN + Style.BRIGHT}Rotate Invalid Proxy? (y/n): {Style.RESET_ALL}").strip().lower()
 
@@ -527,7 +527,7 @@ class WardenAutomation:
             log_message(f"{Fore.CYAN}Initiating AI Chat...{Style.RESET_ALL}")
 
             ai_chat_completed = False
-            for _ in range(3): # Attempt chat interaction a few times
+            for _ in range(3):
                 thread_info = await self.initialize_agent_thread(wallet_address, assigned_proxy)
                 if thread_info:
                     thread_identifier = thread_info.get("thread_id")
@@ -552,7 +552,7 @@ class WardenAutomation:
                                     f"{Fore.GREEN}  Chat Activity: Sent Successfully.{Style.RESET_ALL}"
                                 )
                                 ai_chat_completed = True
-                                break # Exit retry loop if successful
+                                break
                             else:
                                 message_chat = submit_chat_result.get("message", "Unknown Status")
                                 log_message(
@@ -566,7 +566,7 @@ class WardenAutomation:
                 log_message(f"{Fore.RED}Failed to complete AI Chat activity after multiple attempts.{Style.RESET_ALL}")
                     
     async def run_bot_main_loop(self):
-        init(autoreset=True) # Initialize colorama
+        init(autoreset=True)
 
         try:
             with open('accounts.txt', 'r') as file:
@@ -670,18 +670,16 @@ class WardenAutomation:
             log_message(f"{Fore.RED}An unexpected error occurred in main loop: {e}{Style.RESET_ALL}")
 
 if __name__ == "__main__":
-    init(autoreset=True) # Initialize colorama
+    init(autoreset=True)
 
     try:
         bot_instance = WardenAutomation()
         asyncio.run(bot_instance.run_bot_main_loop())
     except KeyboardInterrupt:
         print(
-            f"\n{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%H:%M:%S')}] {Style.RESET_ALL}"
-            f"{Fore.RED}>> Bot Terminated by User.{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.RED}>> Bot Terminated by User.{Style.RESET_ALL}                                       "                              
         )
     except Exception as e:
         print(
-            f"\n{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%H:%M:%S')}] {Style.RESET_ALL}"
-            f"{Fore.RED}>> An unhandled error occurred: {e}{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.RED}>> An unhandled error occurred: {e}{Style.RESET_ALL}                                       "                              
         )
