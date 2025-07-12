@@ -49,19 +49,22 @@ class Warden:
         os.system('cls' if os.name == 'nt' else 'clear')
 
     def log(self, message):
-        # Changed log format: removed AM/PM, added more distinct brackets and separators
+        # Changed log format: removed timestamp from every log message
         print(
-            f"{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%y.%m.%d %H:%M:%S')}] {Style.RESET_ALL}"
             f"{Fore.CYAN}>> {Style.RESET_ALL}{message}",
             flush=True
         )
 
     def welcome(self):
         self.clear_terminal() # Clear before displaying welcome
-        # Completely new, minimalist header
+        # Completely new, minimalist header with dynamic time display
+        current_time_wib = datetime.now().astimezone(wib)
+        time_display = current_time_wib.strftime('%H:%M:%S %d/%m/%Y')
+        
         print(f"{Fore.GREEN + Style.BRIGHT}")
         print("  ┌─────────────────────────────────┐")
         print("  │     [ W A R D E N  B O T ]      │")
+        print(f"  │        {Fore.YELLOW}{time_display}{Fore.GREEN}        │") # Digital clock display
         print("  │                                 │")
         print("  │   Automated Protocol Utility    │")
         print(f"  │ {Fore.WHITE}   by ZonaAirdrop {Fore.GREEN}(t.me/ZonaAirdr0p){Style.RESET_ALL} │")
@@ -734,12 +737,12 @@ if __name__ == "__main__":
         bot = Warden()
         asyncio.run(bot.main())
     except KeyboardInterrupt:
+        # Changed exit message and removed timestamp for consistency with new log style
         print(
-            f"\n{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%y.%m.%d %H:%M:%S')}] {Style.RESET_ALL}"
-            f"{Fore.RED}>> Bot Terminated by User.{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.RED}>> Bot Terminated by User.{Style.RESET_ALL}                                       "                              
         )
     except Exception as e:
+        # Changed error message and removed timestamp for consistency
         print(
-            f"\n{Fore.MAGENTA}[{datetime.now().astimezone(wib).strftime('%y.%m.%d %H:%M:%S')}] {Style.RESET_ALL}"
-            f"{Fore.RED}>> An unhandled error occurred: {e}{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.RED}>> An unhandled error occurred: {e}{Style.RESET_ALL}                                       "                              
         )
