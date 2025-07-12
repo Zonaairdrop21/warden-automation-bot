@@ -50,29 +50,22 @@ class Warden:
 
     def log(self, message):
         print(
-            f"{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}{message}",
+            f"{Fore.CYAN}[ {datetime.now().astimezone(wib).strftime('%m/%d/%y %I:%M:%S %p %Z')} ]{Style.RESET_ALL}"
+            f"{Fore.WHITE} > {Style.RESET_ALL}{message}",
             flush=True
         )
 
     def welcome(self):
         self.clear_terminal() # Clear before displaying welcome
         print(f"{Fore.BLUE + Style.BRIGHT}")
-        print("   _      _      _      _      _      _      _")
-        print("  / \\    / \\    / \\    / \\    / \\    / \\    / \\")
-        print(" ( W )  ( A )  ( R )  ( D )  ( E )  ( N )  ( ? )") # Placeholder for P
-        print("  \\_/    \\_/    \\_/    \\_/    \\_/    \\_/    \\_/")
-        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}")
-        print(f"{Fore.GREEN + Style.BRIGHT}   ██████╗  ██████╗ ███████╗██╗   ██╗███████╗██████╗ ")
-        print(f"{Fore.GREEN + Style.BRIGHT}  ██╔════╝ ██╔════╝ ██╔════╝██║   ██║██╔════╝██╔════╝ ")
-        print(f"{Fore.GREEN + Style.BRIGHT}  ██║  ███╗██║  ███╗███████╗██║   ██║███████╗██║  ███╗")
-        print(f"{Fore.GREEN + Style.BRIGHT}  ██║   ██║██║   ██║╚════██║██║   ██║╚════██║██║   ██║")
-        print(f"{Fore.GREEN + Style.BRIGHT}  ╚██████╔╝╚██████╔╝███████║╚██████╔╝███████║╚██████╔╝")
-        print(f"{Fore.GREEN + Style.BRIGHT}   ╚═════╝  ╚═════╝ ╚══════╝ ╚═════╝  ╚══════╝ ╚═════╝ ")
-        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}")
-        print(f"{Fore.WHITE + Style.BRIGHT}           Powered by Zonaairdrop{Style.RESET_ALL}")
+        print("  ▄▀█ █▀ █▀▀ ▄▀█ ▀█▀ █▄░█ █▀▄▀█ █▀▄ ")
+        print("  █▀█ ▄█ ██▄ █▀█ ░█░ █░▀█ █░▀░█ █▄▀ ")
+        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}")
+        print(f"{Fore.GREEN + Style.BRIGHT}        WARDEN PROTOCOL AUTOMATION      {Style.RESET_ALL}")
+        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}")
+        print(f"{Fore.WHITE + Style.BRIGHT}              Powered by Zonaairdrop{Style.RESET_ALL}")
         print(f"{Fore.YELLOW + Style.BRIGHT}           Telegram: @ZonaAirdr0p{Style.RESET_ALL}")
-        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}\n")
+        print(f"{Fore.CYAN + Style.BRIGHT}  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{Style.RESET_ALL}\n")
         time.sleep(1) # Small delay for better aesthetic
 
 
@@ -246,10 +239,8 @@ class Warden:
                     return True
         except (Exception, ClientResponseError) as e:
             self.log(
-                f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                f"{Fore.RED+Style.BRIGHT} Connection Failed {Style.RESET_ALL}"
-                f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                f"{Fore.CYAN+Style.BRIGHT}Connection Status  :{Style.RESET_ALL}"
+                f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
             )
             return None
     
@@ -274,10 +265,8 @@ class Warden:
                     await asyncio.sleep(5)
                     continue
                 self.log(
-                    f"{Fore.CYAN + Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Get Nonce Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN + Style.BRIGHT}Get Nonce Status   :{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -303,10 +292,8 @@ class Warden:
                     await asyncio.sleep(5)
                     continue
                 self.log(
-                    f"{Fore.CYAN + Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Login Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN + Style.BRIGHT}Login Status       :{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -330,10 +317,8 @@ class Warden:
                     await asyncio.sleep(5)
                     continue
                 self.log(
-                    f"{Fore.CYAN + Style.BRIGHT}Balance :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Failed to Fetch Balance {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN + Style.BRIGHT}Balance Fetch Status:{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -366,10 +351,8 @@ class Warden:
                     await asyncio.sleep(5)
                     continue
                 self.log(
-                    f"{Fore.CYAN+Style.BRIGHT}Check-In:{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Send Activity Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN+Style.BRIGHT}Check-In Send Status:{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -402,10 +385,8 @@ class Warden:
                     await asyncio.sleep(5)
                     continue
                 self.log(
-                    f"{Fore.CYAN + Style.BRIGHT}Games   :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Send Activity Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN + Style.BRIGHT}Game Play Status  :{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -433,10 +414,8 @@ class Warden:
                     continue
                 self.log(
                     f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Agent Init Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN+Style.BRIGHT}Agent Thread Status:{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -484,10 +463,8 @@ class Warden:
                     continue
                 self.log(
                     f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Agent didn't Respond {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN+Style.BRIGHT}Agent Response Status:{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -522,10 +499,8 @@ class Warden:
                     continue
                 self.log(
                     f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                    f"{Fore.RED+Style.BRIGHT} Send Activity Failed {Style.RESET_ALL}"
-                    f"{Fore.MAGENTA+Style.BRIGHT}-{Style.RESET_ALL}"
-                    f"{Fore.YELLOW+Style.BRIGHT} {str(e)} {Style.RESET_ALL}"
+                    f"{Fore.CYAN+Style.BRIGHT}Chat Activity Status:{Style.RESET_ALL}"
+                    f"{Fore.RED+Style.BRIGHT} FAILED - {str(e)} {Style.RESET_ALL}"
                 )
 
         return None
@@ -535,8 +510,7 @@ class Warden:
             proxy = self.get_next_proxy_for_account(address) if use_proxy and self.proxies else None # Check if proxies exist
             display_proxy = proxy if proxy else "None"
             self.log(
-                f"{Fore.CYAN + Style.BRIGHT}Proxy   :{Style.RESET_ALL}"
-                f"{Fore.WHITE + Style.BRIGHT} {display_proxy} {Style.RESET_ALL}"
+                f"{Fore.CYAN + Style.BRIGHT}Using Proxy      : {Fore.WHITE + Style.BRIGHT}{display_proxy} {Style.RESET_ALL}"
             )
 
             is_valid = await self.check_connection(proxy)
@@ -568,8 +542,7 @@ class Warden:
                     self.access_tokens[address] = login["token"]
 
                     self.log(
-                        f"{Fore.CYAN + Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                        f"{Fore.GREEN+Style.BRIGHT} Login Success {Style.RESET_ALL}"
+                        f"{Fore.CYAN + Style.BRIGHT}Login Status       : {Fore.GREEN+Style.BRIGHT}SUCCESS {Style.RESET_ALL}"
                     )
                     return True
 
@@ -585,8 +558,7 @@ class Warden:
                 balance = user.get("token", {}).get("pointsTotal", 0)
 
                 self.log(
-                    f"{Fore.CYAN + Style.BRIGHT}Balance :{Style.RESET_ALL}"
-                    f"{Fore.WHITE+Style.BRIGHT} {balance} PUMPs {Style.RESET_ALL}"
+                    f"{Fore.CYAN + Style.BRIGHT}Current Balance    : {Fore.WHITE+Style.BRIGHT}{balance} PUMPs {Style.RESET_ALL}"
                 )
 
             checkin = await self.send_checkin_activity(address, proxy)
@@ -595,14 +567,12 @@ class Warden:
 
                 if activity_id:
                     self.log(
-                        f"{Fore.CYAN + Style.BRIGHT}Check-In:{Style.RESET_ALL}"
-                        f"{Fore.GREEN+Style.BRIGHT} Send Activity Success {Style.RESET_ALL}"
+                        f"{Fore.CYAN + Style.BRIGHT}Daily Check-In     : {Fore.GREEN+Style.BRIGHT}ACTIVITY SENT {Style.RESET_ALL}"
                     )
                 else:
                     message = checkin.get("message", "Unknown Status")
                     self.log(
-                        f"{Fore.CYAN + Style.BRIGHT}Check-In:{Style.RESET_ALL}"
-                        f"{Fore.YELLOW+Style.BRIGHT} {message} {Style.RESET_ALL}"
+                        f"{Fore.CYAN + Style.BRIGHT}Daily Check-In     : {Fore.YELLOW+Style.BRIGHT}{message} {Style.RESET_ALL}"
                     )
 
             games = await self.send_game_activity(address, proxy)
@@ -610,17 +580,15 @@ class Warden:
                 activity_id = games.get("activityId", None)
                 if activity_id:
                     self.log(
-                        f"{Fore.CYAN + Style.BRIGHT}Games   :{Style.RESET_ALL}"
-                        f"{Fore.GREEN+Style.BRIGHT} Send Activity Success {Style.RESET_ALL}"
+                        f"{Fore.CYAN + Style.BRIGHT}Games Activity     : {Fore.GREEN+Style.BRIGHT}ACTIVITY SENT {Style.RESET_ALL}"
                     )
                 else:
                     message = games.get("message", "Unknown Status")
                     self.log(
-                        f"{Fore.CYAN + Style.BRIGHT}Games   :{Style.RESET_ALL}"
-                        f"{Fore.YELLOW+Style.BRIGHT} {message} {Style.RESET_ALL}"
+                        f"{Fore.CYAN + Style.BRIGHT}Games Activity     : {Fore.YELLOW+Style.BRIGHT}{message} {Style.RESET_ALL}"
                     )
 
-            self.log(f"{Fore.CYAN + Style.BRIGHT}AI Chat :{Style.RESET_ALL}")
+            self.log(f"{Fore.CYAN + Style.BRIGHT}Initiating AI Chat...{Style.RESET_ALL}")
 
             chat_success = False
             for _ in range(3): # Try chat interaction a few times
@@ -631,17 +599,13 @@ class Warden:
                     msg_length = int(len(message))
 
                     self.log(
-                        f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                        f"{Fore.CYAN+Style.BRIGHT}Question:{Style.RESET_ALL}"
-                        f"{Fore.BLUE+Style.BRIGHT} {message} {Style.RESET_ALL}"
+                        f"{Fore.MAGENTA + Style.BRIGHT}  [QUESTION] {Fore.BLUE+Style.BRIGHT}{message} {Style.RESET_ALL}"
                     )
 
                     response = await self.run_stream(address, thread_id, message, proxy)
                     if response:
                         self.log(
-                            f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                            f"{Fore.CYAN+Style.BRIGHT}Response:{Style.RESET_ALL}"
-                            f"{Fore.WHITE+Style.BRIGHT} {response} {Style.RESET_ALL}"
+                            f"{Fore.MAGENTA + Style.BRIGHT}  [RESPONSE] {Fore.WHITE+Style.BRIGHT}{response} {Style.RESET_ALL}"
                         )
 
                         submit = await self.send_chat_activity(address, msg_length, proxy)
@@ -649,21 +613,17 @@ class Warden:
                             activity_id = submit.get("activityId", None)
                             if activity_id:
                                 self.log(
-                                    f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                                    f"{Fore.GREEN+Style.BRIGHT} Send Activity Success {Style.RESET_ALL}"
+                                    f"{Fore.MAGENTA + Style.BRIGHT}  [STATUS] {Fore.GREEN+Style.BRIGHT}Chat Activity Sent {Style.RESET_ALL}"
                                 )
                                 chat_success = True
                                 break # Break from retry loop if successful
                             else:
                                 message = submit.get("message", "Unknown Status")
                                 self.log(
-                                    f"{Fore.MAGENTA + Style.BRIGHT}  ● {Style.RESET_ALL}"
-                                    f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
-                                    f"{Fore.YELLOW+Style.BRIGHT} {message} {Style.RESET_ALL}"
+                                    f"{Fore.MAGENTA + Style.BRIGHT}  [STATUS] {Fore.YELLOW+Style.BRIGHT}{message} {Style.RESET_ALL}"
                                 )
                 if not chat_success:
-                    self.log(f"{Fore.YELLOW + Style.BRIGHT}Retrying AI Chat...{Style.RESET_ALL}")
+                    self.log(f"{Fore.YELLOW + Style.BRIGHT}Retrying AI Chat activity...{Style.RESET_ALL}")
                     await asyncio.sleep(5) # Small delay before retrying chat
 
             if not chat_success:
@@ -695,24 +655,24 @@ class Warden:
             while True:
                 self.clear_terminal() # Clear terminal for each full cycle
                 self.welcome() # Re-display welcome header for each cycle
-                self.log(f"{Fore.GREEN + Style.BRIGHT}Total Accounts: {Fore.WHITE + Style.BRIGHT}{len(accounts)}{Style.RESET_ALL}")
-                self.log(f"{Fore.GREEN + Style.BRIGHT}Proxy Rotation: {Fore.WHITE + Style.BRIGHT}{'Enabled' if rotate_proxy and use_proxy else 'Disabled'}{Style.RESET_ALL}\n")
+                self.log(f"{Fore.GREEN + Style.BRIGHT}Total Accounts  : {Fore.WHITE + Style.BRIGHT}{len(accounts)}{Style.RESET_ALL}")
+                self.log(f"{Fore.GREEN + Style.BRIGHT}Proxy Rotation  : {Fore.WHITE + Style.BRIGHT}{'Enabled' if rotate_proxy and use_proxy else 'Disabled'}{Style.RESET_ALL}\n")
 
                 for account in accounts:
                     if account:
                         address = self.generate_address(account)
                         
-                        self.log(f"{Fore.CYAN + Style.BRIGHT}───────────────────────────────────────────────────{Style.RESET_ALL}")
+                        self.log(f"{Fore.CYAN + Style.BRIGHT}━" * 50 + Style.RESET_ALL)
                         self.log(f"{Fore.CYAN + Style.BRIGHT}Processing Account: {Fore.WHITE + Style.BRIGHT}{self.mask_account(address)}{Style.RESET_ALL}")
-                        self.log(f"{Fore.CYAN + Style.BRIGHT}───────────────────────────────────────────────────{Style.RESET_ALL}")
+                        self.log(f"{Fore.CYAN + Style.BRIGHT}━" * 50 + Style.RESET_ALL)
 
 
                         if not address:
                             self.log(
-                                f"{Fore.CYAN+Style.BRIGHT}Status  :{Style.RESET_ALL}"
+                                f"{Fore.CYAN+Style.BRIGHT}Account Status   :{Style.RESET_ALL}"
                                 f"{Fore.RED + Style.BRIGHT} Invalid Private Key or Library Version Not Supported {Style.RESET_ALL}"
                             )
-                            self.log(f"{Fore.CYAN + Style.BRIGHT}───────────────────────────────────────────────────{Style.RESET_ALL}\n")
+                            self.log(f"{Fore.CYAN + Style.BRIGHT}━" * 50 + Style.RESET_ALL + "\n")
                             continue
 
                         user_agent = random.choice(USER_AGENT)
@@ -724,7 +684,7 @@ class Warden:
                             "Privy-App-Id": "cm7f00k5c02tibel0m4o9tdy1",
                             "Privy-Ca-Id": str(uuid.uuid4()),
                             "Privy-Client": "react-auth:2.13.8",
-                            "Referer": "https://app.wardenprotocol.org/", # Corrected typo "Refrer" to "Referer"
+                            "Referer": "https://app.wardenprotocol.org/",
                             "Sec-Fetch-Dest": "empty",
                             "Sec-Fetch-Mode": "cors",
                             "Sec-Fetch-Site": "cross-site",
@@ -736,7 +696,7 @@ class Warden:
                             "Accept": "*/*",
                             "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
                             "Origin": "https://app.wardenprotocol.org",
-                            "Referer": "https://app.wardenprotocol.org/", # Corrected typo "Refrer" to "Referer"
+                            "Referer": "https://app.wardenprotocol.org/",
                             "Sec-Fetch-Dest": "empty",
                             "Sec-Fetch-Mode": "cors",
                             "Sec-Fetch-Site": "same-site",
@@ -747,7 +707,7 @@ class Warden:
                             "Accept": "*/*",
                             "Accept-Language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
                             "Origin": "https://app.wardenprotocol.org",
-                            "Referer": "https://app.wardenprotocol.org/", # Corrected typo "Refrer" to "Referer"
+                            "Referer": "https://app.wardenprotocol.org/",
                             "Sec-Fetch-Dest": "empty",
                             "Sec-Fetch-Mode": "cors",
                             "Sec-Fetch-Site": "cross-site",
@@ -756,7 +716,7 @@ class Warden:
                         }
 
                         await self.process_accounts(account, address, questions, use_proxy, rotate_proxy)
-                        self.log(f"{Fore.CYAN + Style.BRIGHT}───────────────────────────────────────────────────{Style.RESET_ALL}\n")
+                        self.log(f"{Fore.CYAN + Style.BRIGHT}━" * 50 + Style.RESET_ALL + "\n")
                         await asyncio.sleep(5) # Small delay between accounts
 
                 self.log(f"{Fore.GREEN + Style.BRIGHT}All accounts processed. Waiting for next cycle...{Style.RESET_ALL}")
@@ -764,11 +724,8 @@ class Warden:
                 while seconds > 0:
                     formatted_time = self.format_seconds(seconds)
                     print(
-                        f"{Fore.CYAN+Style.BRIGHT}[ Next cycle in{Style.RESET_ALL}"
-                        f"{Fore.WHITE+Style.BRIGHT} {formatted_time} {Style.RESET_ALL}"
-                        f"{Fore.CYAN+Style.BRIGHT}... ]{Style.RESET_ALL}"
-                        f"{Fore.WHITE+Style.BRIGHT} | {Style.RESET_ALL}"
-                        f"{Fore.BLUE+Style.BRIGHT}Press CTRL+C to exit.{Style.RESET_ALL}",
+                        f"{Fore.CYAN+Style.BRIGHT}[ Next cycle in {Fore.WHITE+Style.BRIGHT}{formatted_time}{Fore.CYAN+Style.BRIGHT} ]{Style.RESET_ALL}"
+                        f"{Fore.WHITE+Style.BRIGHT} | {Fore.BLUE+Style.BRIGHT}Press CTRL+C to exit.{Style.RESET_ALL}",
                         end="\r"
                     )
                     await asyncio.sleep(1)
@@ -789,13 +746,11 @@ if __name__ == "__main__":
         asyncio.run(bot.main())
     except KeyboardInterrupt:
         print(
-            f"\n{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-            f"{Fore.RED + Style.BRIGHT}[ EXIT ] Warden Protocol Bot Terminated.{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%m/%d/%y %I:%M:%S %p %Z')} ]{Style.RESET_ALL}"
+            f"{Fore.WHITE + Style.BRIGHT} > {Fore.RED + Style.BRIGHT}[ EXIT ] Warden Protocol Bot Terminated.{Style.RESET_ALL}                                       "                              
         )
     except Exception as e:
         print(
-            f"\n{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%x %X %Z')} ]{Style.RESET_ALL}"
-            f"{Fore.WHITE + Style.BRIGHT} | {Style.RESET_ALL}"
-            f"{Fore.RED + Style.BRIGHT}An error occurred outside main: {e}{Style.RESET_ALL}                                       "                              
+            f"\n{Fore.CYAN + Style.BRIGHT}[ {datetime.now().astimezone(wib).strftime('%m/%d/%y %I:%M:%S %p %Z')} ]{Style.RESET_ALL}"
+            f"{Fore.WHITE + Style.BRIGHT} > {Fore.RED + Style.BRIGHT}An error occurred outside main: {e}{Style.RESET_ALL}                                       "                              
         )
