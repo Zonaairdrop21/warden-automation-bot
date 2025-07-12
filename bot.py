@@ -52,7 +52,7 @@ class WardenAutomation:
         print(f"  │     {Fore.YELLOW}{time_str} {date_str}{Fore.GREEN}      │")
         print("  │                                 │")
         print("  │   Automated Protocol Utility    │")
-        print(f"  │ {Fore.WHITE}   by ZonaAirdrop {Fore.GREEN}(t.me/ZonaAirdr0p){Style.RESET_ALL} │")
+        print(f"  │ {Fore.WHITE}   by ZonaAirdrop {Fore.GREEN}(@ZonaAirdr0p){Style.RESET_ALL} │")
         print("  └─────────────────────────────────┘\n")
         time.sleep(1)
 
