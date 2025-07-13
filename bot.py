@@ -39,11 +39,14 @@ class WardenAutomation:
         self.account_proxy_assignments = {}
         self.auth_tokens = {}
 
-    def display_welcome_screen(self):
-        clear_console()
-        current_time_display = datetime.now().astimezone(display_timezone)
-        date_str = current_time_display.strftime('%d.%m.%y')
-        time_str = current_time_display.strftime('%H:%M:%S')
+    const display_welcome_screen = async () => {
+    clear_console();
+    const now = new Date();
+    // Format date as DD.MM.YY
+    const date_str = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '.');
+    // Format time as HH:MM:SS
+    const time_str = now.toLocaleTimeString('en-US', { hour12: false });
+    
         
         print(f"{Fore.GREEN + Style.BRIGHT}")
         print("  ┌─────────────────────────────────┐")
