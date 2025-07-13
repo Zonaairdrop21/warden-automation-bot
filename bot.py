@@ -20,8 +20,7 @@ from utils import (
     load_json_data,
     get_masked_address,
     check_proxy_format,
-    get_random_user_agent,
-    display_timezone
+    get_random_user_agent
 )
 
 class WardenAutomation:
@@ -39,14 +38,11 @@ class WardenAutomation:
         self.account_proxy_assignments = {}
         self.auth_tokens = {}
 
-    const display_welcome_screen = async () => {
-    clear_console();
-    const now = new Date();
-    // Format date as DD.MM.YY
-    const date_str = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '.');
-    // Format time as HH:MM:SS
-    const time_str = now.toLocaleTimeString('en-US', { hour12: false });
-    
+    def display_welcome_screen(self):
+        clear_console()
+        now = datetime.now()
+        date_str = now.strftime('%d.%m.%y')
+        time_str = now.strftime('%H:%M:%S')
         
         print(f"{Fore.GREEN + Style.BRIGHT}")
         print("  ┌─────────────────────────────────┐")

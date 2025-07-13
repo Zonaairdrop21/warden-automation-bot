@@ -1,76 +1,59 @@
-import os
-import json
-import random
 from datetime import datetime
-from eth_account import Account
+import os
 from colorama import Fore, Style
-import pytz
-
-display_timezone = pytz.utc
-
-USER_AGENT = [
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/557.36",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0",
-  "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 OPR/106.0.0.0"
-]
+import platform
+import random # Pastikan ini ada
 
 def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if platform.system() == 'Windows' else 'clear')
 
 def log_message(message):
-    print(
-        f"{Fore.CYAN}>> {Style.RESET_ALL}{message}",
-        flush=True
-    )
+    current_time = datetime.now().strftime('%H:%M:%S') # Format baru: HH:MM:SS
+    print(f"{Fore.BLUE}[{current_time}]{Style.RESET_ALL} {message}")
 
 def format_time_duration(seconds):
-    hours, remainder = divmod(seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    return f"{int(hours):02}:{int(minutes):02}:{int(seconds):02}"
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    secs = seconds % 60
+    return f"{int(hours):02}:{int(minutes):02}:{int(secs):02}"
 
 def load_json_data(filename):
     try:
-        if not os.path.exists(filename):
-            log_message(f"{Fore.RED}File {filename} Not Found.{Style.RESET_ALL}")
-            return []
-        with open(filename, 'r') as file:
-            data = json.load(file)
-            if isinstance(data, list):
-                return data
-            return []
+        import json # Pindahkan import json ke sini jika belum ada di file utils.py Anda
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"{Fore.RED}Error: {filename} not found.{Style.RESET_ALL}")
+        return None
     except json.JSONDecodeError:
-        log_message(f"{Fore.RED}Error decoding JSON from {filename}. Ensure it's valid JSON.{Style.RESET_ALL}")
-        return []
-    except Exception as e:
-        log_message(f"{Fore.RED}Failed to load {filename}: {e}{Style.RESET_ALL}")
-        return []
+        print(f"{Fore.RED}Error: Invalid JSON in {filename}.{Style.RESET_ALL}")
+        return None
 
-def get_masked_address(account_key):
+def get_masked_address(key_entry: str):
+    from eth_account import Account # Pindahkan import Account ke sini jika belum ada di file utils.py Anda
     try:
-        eth_account = Account.from_key(account_key)
-        address = eth_account.address
-        return address, address[:4] + '****' + address[-4:]
-    except Exception as e:
-        log_message(f"{Fore.RED}Invalid Private Key: {e}{Style.RESET_ALL}")
-        return None, None
+        # Asumsi key_entry adalah private key heksadesimal 64 karakter
+        account = Account.from_key(key_entry)
+        wallet_address = account.address
+        return wallet_address, f"{wallet_address[:6]}...{wallet_address[-4:]}"
+    except Exception:
+        # Jika bukan private key yang valid, tampilkan sebagian dari string aslinya
+        return None, f"{key_entry[:6]}...{key_entry[-4:]}" if len(key_entry) >= 10 else "Invalid Key"
 
-def check_proxy_format(proxy_url):
-    schemes = ["http://", "https://", "socks4://", "socks5://"]
-    if any(proxy_url.startswith(scheme) for scheme in schemes):
-        return proxy_url
-    return f"http://{proxy_url}"
+def check_proxy_format(proxy_url: str):
+    if not (proxy_url.startswith("http://") or proxy_url.startswith("https://") or proxy_url.startswith("socks5://")):
+        raise ValueError("Invalid proxy format. Must start with http://, https://, or socks5://")
+    return proxy_url
 
 def get_random_user_agent():
-    return random.choice(USER_AGENT)
+    user_agents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/108.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/108.0",
+    ]
+    return random.choice(user_agents)
